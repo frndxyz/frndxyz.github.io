@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Cross Chain Apps</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@liquality/client@0.4.35/dist/client.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@liquality/injected-provider@0.4.35/dist/injected-provider.min.js"></script>
+  </head>
+  <body>
+    <div class="container my-4">
+      <button class="btn btn-primary" id="enable">Enable</button>
+
+      <h1>BTC</h1>
+
+      <button class="btn btn-primary" id="btc-unused">Get an unused address</button>
+      <button class="btn btn-primary" id="btc-sign">Sign a message</button>
+
+      <h1 class="mt-4">ETH</h1>
+
+      <button class="btn btn-primary" id="eth-unused">Get an unused address</button>
+      <button class="btn btn-primary" id="eth-sign">Sign a message</button>
+
+      <pre class="my-4"><code id="result"></code></pre>
+    </div>
+
+    <script>
+var btc = new window.Client()
+var eth = new window.Client()
+
+btc.addProvider(new window.InjectedProvider(window.providerManager.getProviderFor('WGR')))
+eth.addProvider(new window.InjectedProvider(window.providerManager.getProviderFor('ETH')))
+
+window.btc = btc
+window.eth = eth
+
+function log (args) {
+  $('#result').text(JSON.stringify(args, null, 2))
+}
+
+$('#enable').click(function () {
+  window.providerManager.enable().then(log).catch(e => log(e.toString()))
+})
+
+$('#btc-unused').click(function () {
+  btc.wallet.getUnusedAddress().then(log).catch(e => log(e.toString()))
+})
+
+$('#btc-sign').click(async function () {
+  const address = await btc.wallet.getUnusedAddress()
+  btc.wallet.signMessage('hello world', address._address).then(log).catch(e => log(e.toString()))
+})
+
+$('#eth-unused').click(function () {
+  eth.wallet.getUnusedAddress().then(log).catch(e => log(e.toString()))
+})
+
+$('#eth-sign').click(async function () {
+  const address = await btc.wallet.getUnusedAddress()
+  eth.wallet.signMessage('hello world', address._address).then(log).catch(e => log(e.toString()))
+})
+    </script>
+  </body>
+</html>
