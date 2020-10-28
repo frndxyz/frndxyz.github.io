@@ -35,7 +35,7 @@ var eth = new window.Client()
 wgr.addProvider(new window.InjectedProvider(window.providerManager.getProviderFor('WGR')))
 eth.addProvider(new window.InjectedProvider(window.providerManager.getProviderFor('ETH')))
 
-window.btc = wgr
+window.wgr = wgr
 window.eth = eth
 
 function log (args) {
