@@ -52,7 +52,7 @@ $('#btc-unused').click(function () {
 
 $('#btc-sign').click(async function () {
   const address = await wgr.wallet.getUnusedAddress()
-  wgr.wallet.signMessage('hello world', address._address).then(log).catch(e => log(e.toString()))
+  wgr.wallet.signMessage('hello world', address.address).then(log).catch(e => log(e.toString()))
 })
 
 $('#eth-unused').click(function () {
@@ -61,7 +61,7 @@ $('#eth-unused').click(function () {
 
 $('#eth-sign').click(async function () {
   const address = await eth.wallet.getUnusedAddress()
-  eth.wallet.signMessage('hello world', address._address).then(log).catch(e => log(e.toString()))
+  eth.wallet.signMessage('hello world', address.address).then(log).catch(e => log(e.toString()))
 })
     </script>
   </body>
