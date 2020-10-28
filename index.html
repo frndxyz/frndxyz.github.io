@@ -15,7 +15,7 @@
     <div class="container my-4">
       <button class="btn btn-primary" id="enable">Enable</button>
 
-      <h1>BTC</h1>
+      <h1>WGR</h1>
 
       <button class="btn btn-primary" id="btc-unused">Get an unused address</button>
       <button class="btn btn-primary" id="btc-sign">Sign a message</button>
@@ -29,13 +29,13 @@
     </div>
 
     <script>
-var btc = new window.Client()
+var wgr = new window.Client()
 var eth = new window.Client()
 
-btc.addProvider(new window.InjectedProvider(window.providerManager.getProviderFor('WGR')))
+wgr.addProvider(new window.InjectedProvider(window.providerManager.getProviderFor('WGR')))
 eth.addProvider(new window.InjectedProvider(window.providerManager.getProviderFor('ETH')))
 
-window.btc = btc
+window.btc = wgr
 window.eth = eth
 
 function log (args) {
@@ -47,12 +47,12 @@ $('#enable').click(function () {
 })
 
 $('#btc-unused').click(function () {
-  btc.wallet.getUnusedAddress().then(log).catch(e => log(e.toString()))
+  wgr.wallet.getUnusedAddress().then(log).catch(e => log(e.toString()))
 })
 
 $('#btc-sign').click(async function () {
-  const address = await btc.wallet.getUnusedAddress()
-  btc.wallet.signMessage('hello world', address._address).then(log).catch(e => log(e.toString()))
+  const address = await wgr.wallet.getUnusedAddress()
+  wgr.wallet.signMessage('hello world', address._address).then(log).catch(e => log(e.toString()))
 })
 
 $('#eth-unused').click(function () {
@@ -60,7 +60,7 @@ $('#eth-unused').click(function () {
 })
 
 $('#eth-sign').click(async function () {
-  const address = await btc.wallet.getUnusedAddress()
+  const address = await eth.wallet.getUnusedAddress()
   eth.wallet.signMessage('hello world', address._address).then(log).catch(e => log(e.toString()))
 })
     </script>
