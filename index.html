@@ -8,8 +8,8 @@
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
       crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@wagerr-wdk/client@0.6.2/dist/client.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@wagerr-wdk/injected-provider@0.6.2/dist/injected-provider.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@wagerr-wdk/client@0.7.9/dist/client.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@wagerr-wdk/injected-provider@0.7.9/dist/injected-provider.min.js"></script>
   </head>
   <body>
     <div class="container my-4">
@@ -17,9 +17,11 @@
 
       <h1>WGR</h1>
 
-      <button class="btn btn-primary" id="btc-unused">Get an unused address</button>
-      <button class="btn btn-primary" id="btc-sign">Sign a message</button>
-
+      <button class="btn btn-primary" id="wgr-unused">Get an unused address</button>
+      <button class="btn btn-primary" id="wgr-sign">Sign a message</button>
+      <button class="btn btn-primary" id="wgr-send"> Send 2 WGR</button>
+      <button class="btn btn-primary" id="wgr-balance"> Get Balance</button>
+      <button class="btn btn-primary" id="wgr-rolldice"> Roll Dice</button>
       <h1 class="mt-4">ETH</h1>
 
       <button class="btn btn-primary" id="eth-unused">Get an unused address</button>
@@ -46,13 +48,31 @@ $('#enable').click(function () {
   window.providerManager.enable().then(log).catch(e => log(e.toString()))
 })
 
-$('#btc-unused').click(function () {
+$('#wgr-unused').click(function () {
   wgr.wallet.getUnusedAddress().then(log).catch(e => log(e.toString()))
 })
 
-$('#btc-sign').click(async function () {
+$('#wgr-sign').click(async function () {
   const address = await wgr.wallet.getUnusedAddress()
-  wgr.wallet.signMessage('hello world', address.address).then(log).catch(e => log(e.toString()))
+  wgr.wallet.signMessage('hello world', address._address).then(log).catch(e => log(e.toString()))
+})
+
+$('#wgr-send').click(async function () {
+  
+  wgr.chain.sendTransaction("TWPSWVp15ytz4hD82PR7UTvMVturtYQhe8",2 * (10**8),"test",).then(log).catch(e => log(e.toString()))
+})
+
+$('#wgr-rolldice').click(async function () {
+  
+  wgr.chain.sendTransaction("42010d00050105000000",26 * (10**8),"test",).then(log).catch(e => log(e.toString()))
+})
+
+
+$('#wgr-balance').click(async function () {
+  wgr.wallet.getUsedAddresses().then(addrs => {
+    wgr.chain.getBalance(addrs).then(log).catch(e => log(e.toString()))
+  })
+  
 })
 
 $('#eth-unused').click(function () {
@@ -61,7 +81,7 @@ $('#eth-unused').click(function () {
 
 $('#eth-sign').click(async function () {
   const address = await eth.wallet.getUnusedAddress()
-  eth.wallet.signMessage('hello world', address.address).then(log).catch(e => log(e.toString()))
+  eth.wallet.signMessage('hello world', address._address).then(log).catch(e => log(e.toString()))
 })
     </script>
   </body>
