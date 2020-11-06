@@ -59,7 +59,7 @@ $('#wgr-sign').click(async function () {
 
 $('#wgr-send').click(async function () {
   
-  wgr.chain.sendTransaction("TWPSWVp15ytz4hD82PR7UTvMVturtYQhe8",2 * (10**8),"test",).then(log).catch(e => log(e.toString()))
+  wgr.chain.sendTransaction("TWPSWVp15ytz4hD82PR7UTvMVturtYQhe8",2 * (10**8)).then(log).catch(e => log(e.toString()))
 })
 
 $('#wgr-rolldice').click(async function () {
