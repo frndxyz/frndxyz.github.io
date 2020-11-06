@@ -64,7 +64,7 @@ $('#wgr-send').click(async function () {
 
 $('#wgr-rolldice').click(async function () {
   
-  wgr.chain.sendTransaction("42010d00050105000000",26 * (10**8),"test",).then(log).catch(e => log(e.toString()))
+  wgr.chain.sendTransaction("42010d00050105000000",26 * (10**8)).then(log).catch(e => log(e.toString()))
 })
 
 
